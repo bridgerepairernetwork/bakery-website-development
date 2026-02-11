@@ -8,7 +8,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   const menuItems = [
-    { label: 'Gallery', href: '#products' },
+    { label: 'Gallery', href: '/menu' },
     { label: 'Our Portfolio', href: '#portfolio' },
     { label: 'Packages', href: '#packages' },
     { label: 'Contact', href: '#contact' },
