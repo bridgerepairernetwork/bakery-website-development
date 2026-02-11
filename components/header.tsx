@@ -11,7 +11,7 @@ export function Header() {
     { label: 'Gallery', href: '/menu' },
     { label: 'Our Portfolio', href: '#portfolio' },
     { label: 'Packages', href: '#packages' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Contact', href: '/contact' },
   ]
 
   const handleNavClick = () => {
