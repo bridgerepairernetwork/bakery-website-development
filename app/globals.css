@@ -5,102 +5,103 @@
 @layer base {
   :root {
     --font-epilogue: 'Epilogue', sans-serif;
-    /* Primary Colors */
-    --navy-blue: 0.82 0.52 0.27; /* #002147 */
-    --vibrant-red: 0.90 0.12 0.16; /* #e61e2a */
+    /* Primary Colors - Blue and White with Red Accent */
+    --primary-blue: 0.16 0.56 0.85; /* #2B8FDB - Vibrant Blue */
+    --accent-red: 0.96 0.26 0.21; /* #F54535 - Warm Red */
     --crisp-white: 1 1 1; /* #ffffff */
-    --soft-white: 0.97 0.98 0.99; /* #f8fafc */
+    --soft-white: 0.98 0.98 0.99; /* #fafbfc */
+    --dark-text: 0.15 0.15 0.15; /* #262626 - Dark Gray */
     
     /* Background and Foreground */
     --background: 1 1 1;
-    --foreground: 0.82 0.52 0.27;
+    --foreground: 0.15 0.15 0.15;
     
     /* Card Colors */
     --card: 1 1 1;
-    --card-foreground: 0.82 0.52 0.27;
+    --card-foreground: 0.15 0.15 0.15;
     
     /* Popover */
     --popover: 1 1 1;
-    --popover-foreground: 0.82 0.52 0.27;
+    --popover-foreground: 0.15 0.15 0.15;
     
-    /* Primary (Navy Blue) */
-    --primary: 0.82 0.52 0.27;
+    /* Primary (Vibrant Blue) */
+    --primary: 0.16 0.56 0.85;
     --primary-foreground: 1 1 1;
     
     /* Secondary (Soft White) */
-    --secondary: 0.97 0.98 0.99;
-    --secondary-foreground: 0.82 0.52 0.27;
+    --secondary: 0.98 0.98 0.99;
+    --secondary-foreground: 0.16 0.56 0.85;
     
     /* Muted */
-    --muted: 0.97 0.98 0.99;
+    --muted: 0.92 0.92 0.94;
     --muted-foreground: 0.50 0.50 0.50;
     
-    /* Accent (Vibrant Red) */
-    --accent: 0.90 0.12 0.16;
+    /* Accent (Warm Red) */
+    --accent: 0.96 0.26 0.21;
     --accent-foreground: 1 1 1;
     
     /* Destructive */
-    --destructive: 0.90 0.12 0.16;
+    --destructive: 0.96 0.26 0.21;
     --destructive-foreground: 1 1 1;
     
     /* Border and Input */
-    --border: 0.97 0.98 0.99;
-    --input: 0.97 0.98 0.99;
-    --ring: 0.82 0.52 0.27;
+    --border: 0.92 0.92 0.94;
+    --input: 0.98 0.98 0.99;
+    --ring: 0.16 0.56 0.85;
     
     /* Chart Colors */
-    --chart-1: 0.82 0.52 0.27;
-    --chart-2: 0.90 0.12 0.16;
-    --chart-3: 0.97 0.98 0.99;
-    --chart-4: 0.80 0.60 0.40;
-    --chart-5: 0.70 0.50 0.30;
+    --chart-1: 0.16 0.56 0.85;
+    --chart-2: 0.96 0.26 0.21;
+    --chart-3: 0.98 0.98 0.99;
+    --chart-4: 0.45 0.70 0.90;
+    --chart-5: 0.80 0.85 0.95;
     
     --radius: 0.5rem;
     
     /* Sidebar */
     --sidebar-background: 1 1 1;
-    --sidebar-foreground: 0.82 0.52 0.27;
-    --sidebar-primary: 0.82 0.52 0.27;
+    --sidebar-foreground: 0.16 0.56 0.85;
+    --sidebar-primary: 0.16 0.56 0.85;
     --sidebar-primary-foreground: 1 1 1;
-    --sidebar-accent: 0.90 0.12 0.16;
+    --sidebar-accent: 0.96 0.26 0.21;
     --sidebar-accent-foreground: 1 1 1;
-    --sidebar-border: 0.97 0.98 0.99;
-    --sidebar-ring: 0.82 0.52 0.27;
+    --sidebar-border: 0.92 0.92 0.94;
+    --sidebar-ring: 0.16 0.56 0.85;
   }
 
   .dark {
-    --background: 0.02 0.02 0.02;
-    --foreground: 0.97 0.98 0.99;
-    --card: 0.02 0.02 0.02;
-    --card-foreground: 0.97 0.98 0.99;
-    --popover: 0.02 0.02 0.02;
-    --popover-foreground: 0.97 0.98 0.99;
-    --primary: 0.97 0.98 0.99;
-    --primary-foreground: 0.82 0.52 0.27;
-    --secondary: 0.10 0.10 0.10;
-    --secondary-foreground: 0.97 0.98 0.99;
-    --muted: 0.10 0.10 0.10;
-    --muted-foreground: 0.60 0.60 0.60;
-    --accent: 0.90 0.12 0.16;
-    --accent-foreground: 1 1 1;
-    --destructive: 0.90 0.12 0.16;
-    --destructive-foreground: 1 1 1;
-    --border: 0.10 0.10 0.10;
-    --input: 0.10 0.10 0.10;
-    --ring: 0.97 0.98 0.99;
-    --chart-1: 0.90 0.12 0.16;
-    --chart-2: 0.82 0.52 0.27;
-    --chart-3: 0.97 0.98 0.99;
-    --chart-4: 0.80 0.60 0.40;
-    --chart-5: 0.70 0.50 0.30;
-    --sidebar-background: 0.02 0.02 0.02;
-    --sidebar-foreground: 0.97 0.98 0.99;
-    --sidebar-primary: 0.82 0.52 0.27;
-    --sidebar-primary-foreground: 1 1 1;
-    --sidebar-accent: 0.90 0.12 0.16;
-    --sidebar-accent-foreground: 1 1 1;
-    --sidebar-border: 0.10 0.10 0.10;
-    --sidebar-ring: 0.97 0.98 0.99;
+    --background: 0.08 0.08 0.10;
+    --foreground: 0.98 0.98 0.99;
+    --card: 0.12 0.12 0.15;
+    --card-foreground: 0.98 0.98 0.99;
+    --popover: 0.12 0.12 0.15;
+    --popover-foreground: 0.98 0.98 0.99;
+    --primary: 0.50 0.75 0.95;
+    --primary-foreground: 0.08 0.08 0.10;
+    --secondary: 0.15 0.15 0.18;
+    --secondary-foreground: 0.98 0.98 0.99;
+    --muted: 0.20 0.20 0.22;
+    --muted-foreground: 0.65 0.65 0.65;
+    --accent: 0.96 0.26 0.21;
+    --accent-foreground: 0.98 0.98 0.99;
+    --destructive: 0.96 0.26 0.21;
+    --destructive-foreground: 0.98 0.98 0.99;
+    --border: 0.20 0.20 0.22;
+    --input: 0.15 0.15 0.18;
+    --ring: 0.50 0.75 0.95;
+    --chart-1: 0.50 0.75 0.95;
+    --chart-2: 0.96 0.26 0.21;
+    --chart-3: 0.98 0.98 0.99;
+    --chart-4: 0.45 0.70 0.90;
+    --chart-5: 0.80 0.85 0.95;
+    --sidebar-background: 0.08 0.08 0.10;
+    --sidebar-foreground: 0.98 0.98 0.99;
+    --sidebar-primary: 0.50 0.75 0.95;
+    --sidebar-primary-foreground: 0.08 0.08 0.10;
+    --sidebar-accent: 0.96 0.26 0.21;
+    --sidebar-accent-foreground: 0.98 0.98 0.99;
+    --sidebar-border: 0.20 0.20 0.22;
+    --sidebar-ring: 0.50 0.75 0.95;
   }
 }
 
