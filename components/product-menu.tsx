@@ -1,118 +1,125 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { Heart, ShoppingBag } from 'lucide-react'
+import { useState } from "react";
+import Image from "next/image";
+import { Heart, ShoppingBag } from "lucide-react";
 
 interface Product {
-  id: string
-  name: string
-  category: string
-  price: string
-  image: string
-  description: string
-  servings?: string
+  id: string;
+  name: string;
+  category: string;
+  price: string;
+  image: string;
+  description: string;
+  servings?: string;
 }
 
 const products: Product[] = [
   {
-    id: '1',
-    name: 'Velvet Chocolate Cake',
-    category: 'wedding-cakes',
-    price: 'From $85',
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=600&fit=crop',
-    description: 'Decadent chocolate layers with silky ganache',
-    servings: '10-12 servings'
+    id: "1",
+    name: "Velvet Chocolate Cake",
+    category: "wedding-cakes",
+    price: "From $85",
+    image:
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=600&fit=crop",
+    description: "Decadent chocolate layers with silky ganache",
+    servings: "10-12 servings",
   },
   {
-    id: '2',
-    name: 'Rainbow Macaron Tower',
-    category: 'celebrations',
-    price: 'From $120',
-    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=600&fit=crop',
-    description: 'Colorful handmade macarons in elegant tower',
-    servings: '24 pieces'
+    id: "2",
+    name: "Rainbow Macaron Tower",
+    category: "celebrations",
+    price: "From $120",
+    image:
+      "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=600&fit=crop",
+    description: "Colorful handmade macarons in elegant tower",
+    servings: "24 pieces",
   },
   {
-    id: '3',
-    name: 'Buttery Croissants',
-    category: 'everything',
-    price: 'From $4.50',
-    image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&h=600&fit=crop',
-    description: 'Classic French butter croissants, perfectly flaky',
-    servings: 'Individual'
+    id: "3",
+    name: "Buttery Croissants",
+    category: "everything",
+    price: "From $4.50",
+    image:
+      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&h=600&fit=crop",
+    description: "Classic French butter croissants, perfectly flaky",
+    servings: "Individual",
   },
   {
-    id: '4',
-    name: 'Artisan Sourdough',
-    category: 'everything',
-    price: 'From $8',
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=600&fit=crop',
-    description: 'Handcrafted sourdough with perfect crust',
-    servings: '1 loaf'
+    id: "4",
+    name: "Artisan Sourdough",
+    category: "everything",
+    price: "From $8",
+    image:
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=600&fit=crop",
+    description: "Handcrafted sourdough with perfect crust",
+    servings: "1 loaf",
+  },
+  // {
+  //   id: '5',
+  //   name: 'Berry Tart Elegance',
+  //   category: 'celebrations',
+  //   price: 'From $65',
+  //   image: 'https://images.unsplash.com/photo-1535920527894-b40a2b77adc3?w=600&h=600&fit=crop',
+  //   description: 'Fresh berries on custard with pastry shell',
+  //   servings: '8 servings'
+  // },
+  // {
+  //   id: '6',
+  //   name: 'Tiered Wedding Cake',
+  //   category: 'wedding-cakes',
+  //   price: 'From $250',
+  //   image: 'https://images.unsplash.com/photo-1614707267537-b85faf00021b?w=600&h=600&fit=crop',
+  //   description: 'Elegant three-tier white cake with fondant',
+  //   servings: '30-40 servings'
+  // },
+  {
+    id: "7",
+    name: "Corporate Catering Platter",
+    category: "corporate",
+    price: "From $200",
+    image:
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop",
+    description: "Assorted pastries and savory options",
+    servings: "20-25 pieces",
   },
   {
-    id: '5',
-    name: 'Berry Tart Elegance',
-    category: 'celebrations',
-    price: 'From $65',
-    image: 'https://images.unsplash.com/photo-1535920527894-b40a2b77adc3?w=600&h=600&fit=crop',
-    description: 'Fresh berries on custard with pastry shell',
-    servings: '8 servings'
+    id: "8",
+    name: "Birthday Celebration Cake",
+    category: "celebrations",
+    price: "From $55",
+    image:
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=600&fit=crop",
+    description: "Custom flavored cake with personalized design",
+    servings: "15-20 servings",
   },
-  {
-    id: '6',
-    name: 'Tiered Wedding Cake',
-    category: 'wedding-cakes',
-    price: 'From $250',
-    image: 'https://images.unsplash.com/photo-1614707267537-b85faf00021b?w=600&h=600&fit=crop',
-    description: 'Elegant three-tier white cake with fondant',
-    servings: '30-40 servings'
-  },
-  {
-    id: '7',
-    name: 'Corporate Catering Platter',
-    category: 'corporate',
-    price: 'From $200',
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop',
-    description: 'Assorted pastries and savory options',
-    servings: '20-25 pieces'
-  },
-  {
-    id: '8',
-    name: 'Birthday Celebration Cake',
-    category: 'celebrations',
-    price: 'From $55',
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=600&fit=crop',
-    description: 'Custom flavored cake with personalized design',
-    servings: '15-20 servings'
-  },
-]
+];
 
 const categories = [
-  { id: 'everything', label: 'Everything' },
-  { id: 'wedding-cakes', label: 'Wedding Cakes' },
-  { id: 'celebrations', label: 'Celebrations' },
-  { id: 'corporate', label: 'Corporate' },
-]
+  { id: "everything", label: "Everything" },
+  { id: "wedding-cakes", label: "Wedding Cakes" },
+  { id: "celebrations", label: "Celebrations" },
+  { id: "corporate", label: "Corporate" },
+];
 
 export function ProductMenu() {
-  const [selectedCategory, setSelectedCategory] = useState('everything')
-  const [liked, setLiked] = useState<Set<string>>(new Set())
+  const [selectedCategory, setSelectedCategory] = useState("everything");
+  const [liked, setLiked] = useState<Set<string>>(new Set());
 
-  const filteredProducts = selectedCategory === 'everything'
-    ? products
-    : products.filter(p => p.category === selectedCategory)
+  const filteredProducts =
+    selectedCategory === "everything"
+      ? products
+      : products.filter((p) => p.category === selectedCategory);
 
   const toggleLike = (id: string) => {
-    const newLiked = new Set(liked)
+    const newLiked = new Set(liked);
     if (newLiked.has(id)) {
-      newLiked.delete(id)
+      newLiked.delete(id);
     } else {
-      newLiked.add(id)
+      newLiked.add(id);
     }
-    setLiked(newLiked)
-  }
+    setLiked(newLiked);
+  };
 
   return (
     <section className="py-16 md:py-24">
@@ -127,22 +134,22 @@ export function ProductMenu() {
           The Gallery of Delights
         </h1>
         <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-          Exceptional craftsmanship for your most precious moments. Explore our curated selection
-          of bespoke cakes and event designs.
+          Exceptional craftsmanship for your most precious moments. Explore our
+          curated selection of bespoke cakes and event designs.
         </p>
       </div>
 
       {/* Category Filter */}
       <div className="max-w-6xl mx-auto px-6 mb-12">
         <div className="flex flex-wrap gap-3 justify-center">
-          {categories.map(category => (
+          {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all ${
+              className={`px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 ${
                 selectedCategory === category.id
-                  ? 'bg-primary text-white shadow-lg shadow-primary/30'
-                  : 'bg-secondary text-primary hover:bg-primary/5 border border-primary/10'
+                  ? "bg-primary text-white shadow-xl shadow-primary/20 scale-105"
+                  : "bg-white text-primary hover:bg-blue-50 border border-primary/10 hover:border-primary/30"
               }`}
             >
               {category.label}
@@ -154,7 +161,7 @@ export function ProductMenu() {
       {/* Product Grid */}
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map(product => (
+          {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="group bg-white rounded-lg overflow-hidden border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
@@ -178,8 +185,8 @@ export function ProductMenu() {
                   <Heart
                     className={`w-5 h-5 transition-all ${
                       liked.has(product.id)
-                        ? 'fill-accent text-accent'
-                        : 'text-gray-400'
+                        ? "fill-accent text-accent"
+                        : "text-gray-400"
                     }`}
                   />
                 </button>
@@ -189,7 +196,7 @@ export function ProductMenu() {
               <div className="p-6">
                 <div className="mb-3">
                   <span className="inline-block text-xs font-bold uppercase tracking-widest text-accent mb-2">
-                    {categories.find(c => c.id === product.category)?.label}
+                    {categories.find((c) => c.id === product.category)?.label}
                   </span>
                   <h3 className="text-lg font-black text-primary group-hover:text-accent transition-colors">
                     {product.name}
@@ -211,7 +218,7 @@ export function ProductMenu() {
                   <span className="text-lg font-black text-primary">
                     {product.price}
                   </span>
-                  <button className="bg-primary hover:bg-blue-700 text-white p-2.5 rounded-full flex items-center justify-center transition-all active:scale-95 shadow-lg shadow-primary/20">
+                  <button className="bg-primary hover:bg-accent text-white p-2.5 rounded-full flex items-center justify-center transition-all active:scale-95 shadow-lg shadow-primary/20">
                     <ShoppingBag className="w-5 h-5" />
                   </button>
                 </div>
@@ -237,14 +244,14 @@ export function ProductMenu() {
             Can't Find What You're Looking For?
           </h3>
           <p className="text-gray-600 mb-6">
-            We create custom cakes and catering solutions tailored to your vision. Contact us for
-            a personalized consultation.
+            We create custom cakes and catering solutions tailored to your
+            vision. Contact us for a personalized consultation.
           </p>
-          <button className="bg-accent hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full transition-all active:scale-95 shadow-lg shadow-accent/30 uppercase tracking-wider">
+          <button className="bg-accent hover:bg-primary text-white font-bold py-3 px-8 rounded-full transition-all active:scale-95 shadow-lg shadow-accent/30 uppercase tracking-wider">
             Request Custom Order
           </button>
         </div>
       </div>
     </section>
-  )
+  );
 }
