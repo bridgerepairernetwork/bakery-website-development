@@ -113,7 +113,7 @@ export default function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={handleNavClick}
-                    className="block text-base font-semibold text-primary hover:text-accent transition-colors py-3 pl-4 border-l-4 border-transparent hover:border-accent hover:bg-secondary rounded-r-lg"
+                    className="block text-base font-semibold text-primary hover:text-white transition-colors py-3 pl-4 border-l-4 border-transparent hover:border-accent hover:bg-secondary rounded-r-lg"
                   >
                     {item.label}
                   </Link>
@@ -147,7 +147,7 @@ export default function Header() {
                       Phone
                     </span>
                     <span className="text-sm font-semibold">
-                      (555) 123-4567
+                      +234 802 7815 383
                     </span>
                   </div>
                 </a>
@@ -164,7 +164,7 @@ export default function Header() {
                       Email
                     </span>
                     <span className="text-sm font-semibold">
-                      hello@perfectwhite.com
+                      oyegokemojisola@gmail.com
                     </span>
                   </div>
                 </a>
@@ -178,14 +178,14 @@ export default function Header() {
                       Visit Us
                     </span>
                     <span className="text-sm font-semibold">
-                      123 Pastry Lane, Suite 100
+                      JFFX+2QC, Lagos Rd, Ikorodu, 104101, Lagos, Nigeria
                     </span>
                   </div>
                 </div>
               </div>
 
               {/* Social Links */}
-              <div className="mt-8 pt-8 border-t border-primary/10">
+              {/* <div className="mt-8 pt-8 border-t border-primary/10">
                 <h3 className="text-xs uppercase font-bold text-primary tracking-widest mb-4">
                   Follow Us
                 </h3>
@@ -203,7 +203,7 @@ export default function Header() {
                     <Facebook className="w-5 h-5" />
                   </a>
                 </div>
-              </div>
+              </div> */}
             </nav>
           </div>
         </div>

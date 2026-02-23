@@ -335,7 +335,7 @@ export default function ProductMenu() {
       <div className="mt-16 bg-gradient-to-r from-primary/5 to-primary/10 py-12 rounded-lg max-w-4xl mx-auto px-6">
         <div className="text-center">
           <h3 className="text-2xl md:text-3xl font-black text-primary mb-3">
-            Can't Find What You're Looking For?
+            Can&#39;t Find What You&#39;re Looking For?
           </h3>
           <p className="text-gray-600 mb-6">
             We create custom cakes and catering solutions tailored to your

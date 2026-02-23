@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 
 export default function AboutPage() {

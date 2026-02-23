@@ -1,5 +1,5 @@
-import { CheckCircle2, CalendarCheck } from "lucide-react";
 import Image from "next/image";
+import { CheckCircle2, CalendarCheck } from "lucide-react";
 
 export default function BrandSection() {
   return (

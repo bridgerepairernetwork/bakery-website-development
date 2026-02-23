@@ -1,16 +1,9 @@
 "use client";
 
-import Header from "@/components/header";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Instagram,
-  Facebook,
-  MessageCircle,
-} from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
+import { Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import Header from "@/components/header";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -83,7 +76,7 @@ export default function ContactPage() {
           <div className="lg:col-span-7 space-y-8">
             <div>
               <h2 className="text-3xl md:text-4xl font-black text-primary mb-3">
-                Let's Plan Your Next Event
+                Let&#39;s Plan Your Next Event
               </h2>
               <p className="text-gray-600 text-lg">
                 Contact our specialist team for a custom cake consultation or

@@ -30,13 +30,13 @@ export default function FounderSection() {
                 Mojisola Olawale
               </h3>
               <p className="text-gray-600 mb-6 md:leading-relaxed text-center md:text-start">
-                Hi ,I am Mojisola olawale I am a passionate certified baker and
+                Hi, I am Mojisola olawale I am a passionate certified baker and
                 business coach dedicated to helping people create success in
                 baking and in business. As a baker, I craft delicious,
                 beautifully designed cakes that make every celebration special.
                 As a business coach, I help individuals turn their skills and
                 gifts into profitable ventures with clarity, strategy, and
-                confidence. I don’t just bake and build businesses — I help
+                confidence. I don&#39;t just bake and build businesses — I help
                 others do the same.
               </p>
             </div>

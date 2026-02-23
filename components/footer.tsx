@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Mail, Phone, MapPin, Share2, Camera } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (

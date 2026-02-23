@@ -47,32 +47,6 @@ export default function CTASection() {
             </Link>
           </div>
         </div>
-
-        {/* <div className="relative z-10 flex-1 w-full max-w-md">
-          <div className="bg-white/10 p-10 rounded-2xl border border-white/20 backdrop-blur-xl">
-            <h4 className="text-white font-bold text-2xl mb-4">The VIP List</h4>
-            <p className="text-white/70 text-sm mb-8">
-              Be the first to hear about seasonal cake drops and event design
-              trends.
-            </p>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <input
-                className="w-full bg-white/5 border border-white/20 rounded-xl py-4 px-6 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                placeholder="Your best email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button
-                className="w-full bg-white text-primary font-black py-4 rounded-xl hover:bg-accent hover:text-white transition-all uppercase tracking-widest text-sm disabled:opacity-70"
-                disabled={loading}
-              >
-                {loading ? "Joining..." : "Join the Registry"}
-              </button>
-            </form>
-          </div>
-        </div> */}
       </div>
     </section>
   );
