@@ -23,7 +23,7 @@ export default function Hero() {
           Excellence in Every Bite
         </span>
         <h1 className="text-white text-5xl md:text-8xl font-black leading-tight mb-6 tracking-tighter text-balance">
-          Perfectly White <br />
+          Perfect White <br />
           <span className="text-white italic font-light">Cakes and Events</span>
         </h1>
         <p className="text-white text-lg md:text-xl font-medium max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-md">
