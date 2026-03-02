@@ -2,13 +2,13 @@
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import ProductMenu from "@/components/product-menu";
+import Gallery from "@/components/gallery";
 
 export default function GalleryPage() {
   return (
     <main className="min-h-screen bg-white">
       <Header />
-      <ProductMenu />
+      <Gallery />
       <Footer />
     </main>
   );

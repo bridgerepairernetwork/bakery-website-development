@@ -15,21 +15,54 @@ export default function ContactPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setFormData({
-      name: "",
-      email: "",
-      eventDate: "",
-      serviceType: "custom-wedding-cake",
-      vision: "",
-    });
-    setIsSubmitting(false);
-    alert("Thank you for your inquiry! We will contact you soon.");
+    setSubmitMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage({
+          type: "success",
+          text: "Thank you for your inquiry! We will contact you within 24-48 hours.",
+        });
+        setFormData({
+          name: "",
+          email: "",
+          eventDate: "",
+          serviceType: "custom-wedding-cake",
+          vision: "",
+        });
+      } else {
+        setSubmitMessage({
+          type: "error",
+          text: data.error || "Failed to send inquiry. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmitMessage({
+        type: "error",
+        text: "An error occurred. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (
@@ -189,6 +222,19 @@ export default function ContactPage() {
                   <span>{isSubmitting ? "Sending..." : "Send Inquiry"}</span>
                   <Mail className="w-5 h-5" />
                 </button>
+
+                {/* Success/Error Message */}
+                {submitMessage && (
+                  <div
+                    className={`p-4 rounded-xl text-center font-semibold ${
+                      submitMessage.type === "success"
+                        ? "bg-green-50 text-green-800 border border-green-200"
+                        : "bg-red-50 text-red-800 border border-red-200"
+                    }`}
+                  >
+                    {submitMessage.text}
+                  </div>
+                )}
               </form>
             </div>
           </div>

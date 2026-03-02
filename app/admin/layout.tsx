@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import Sidebar from "@/components/admin/sidebar";
+import { AuthProvider } from "@/lib/auth";
+import AdminProtected from "@/components/admin/admin-protected";
+import { Epilogue } from "next/font/google";
+
+import "../globals.css";
+
+const epilogue = Epilogue({ subsets: ["latin"], variable: "--font-epilogue" });
 
 export const metadata: Metadata = {
   title: "Perfect White Admin | Portfolio Management",
@@ -12,9 +18,16 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-background">
-      <Sidebar />
-      <main className="flex-1 flex flex-col overflow-hidden">{children}</main>
-    </div>
+    <html lang="en" className={epilogue.variable}>
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <AuthProvider>
+          <div className="flex h-screen bg-background">
+            <main className="flex-1 flex flex-col overflow-hidden">
+              <AdminProtected>{children}</AdminProtected>
+            </main>
+          </div>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

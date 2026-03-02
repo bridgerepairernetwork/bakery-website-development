@@ -1,36 +1,95 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { X, ImagePlus } from "lucide-react";
+import { auth } from "@/lib/firebaseClient";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-interface PortfolioFormProps {
+interface AdminFormProps {
   onClose: () => void;
 }
 
-export default function PortfolioForm({ onClose }: PortfolioFormProps) {
+export default function AdminForm({ onClose }: AdminFormProps) {
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Signature Collection");
   const [description, setDescription] = useState("");
   const [featured, setFeatured] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
+
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      // upload to cloudinary via our API
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) throw new Error("Not authenticated");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const uploadRes = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok) throw new Error(uploadData.error || "Upload failed");
+
+      // create Firestore document
+      const creationRes = await fetch("/api/admin/creations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          category,
+          featured,
+          imageUrl: uploadData.url,
+          cloudinaryId: uploadData.public_id,
+        }),
+      });
+      const creationData = await creationRes.json();
+      if (!creationRes.ok) throw new Error(creationData.error || "Save failed");
+
+      toast.success("Creation saved successfully!");
+      setTitle("");
+      setCategory("Signature Collection");
+      setDescription("");
+      setFeatured(false);
+      setFile(null);
+      setPreview(null);
+      router.refresh();
+
       onClose();
-    }, 1500);
+    } catch (err: any) {
+      console.error("save error", err);
+      alert(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section className="w-full lg:w-[450px] border-l border-slate-100 bg-white flex flex-col shadow-2xl fixed right-0 top-0 bottom-0 z-40 overflow-hidden">
       {/* Header */}
       <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
-        <h3 className="text-xl font-bold text-slate-900">
-          New Portfolio Entry
-        </h3>
+        <h3 className="text-xl font-bold text-slate-900">New Entry</h3>
         <button
           onClick={onClose}
           className="p-2 hover:bg-slate-50 rounded-full transition-colors"
@@ -50,14 +109,44 @@ export default function PortfolioForm({ onClose }: PortfolioFormProps) {
             Main Photography
           </label>
           <div className="relative group">
-            <div className="w-full aspect-[4/3] border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 bg-slate-50 hover:bg-slate-100 hover:border-accent transition-all cursor-pointer group-hover:scale-[1.02]">
-              <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <ImagePlus className="w-8 h-8 text-accent" />
-              </div>
-              <p className="font-bold text-slate-700">Upload high-res image</p>
-              <p className="text-xs text-slate-400 mt-2">
-                Recommended: 1200 x 900px (JPG or PNG)
-              </p>
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={(e) => {
+                const f = e.target.files?.[0] ?? null;
+                setFile(f);
+                if (f) {
+                  setPreview(URL.createObjectURL(f));
+                } else {
+                  setPreview(null);
+                }
+              }}
+            />
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full aspect-[4/3] border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 bg-slate-50 hover:bg-slate-100 hover:border-accent transition-all cursor-pointer group-hover:scale-[1.02]"
+            >
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="object-cover w-full h-full rounded-xl"
+                />
+              ) : (
+                <>
+                  <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <ImagePlus className="w-8 h-8 text-accent" />
+                  </div>
+                  <p className="font-bold text-slate-700">
+                    Upload high-res image
+                  </p>
+                  <p className="text-xs text-slate-400 mt-2">
+                    Recommended: 1200 x 900px (JPG or PNG)
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>

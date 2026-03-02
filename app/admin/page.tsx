@@ -1,27 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import PortfolioHeader from "@/components/admin/portfolio-header";
-import PortfolioGrid from "@/components/admin/portfolio-grid";
-import PortfolioForm from "@/components/admin/portfolio-form";
+import { useAuth } from "@/lib/auth";
+import AdminHeader from "@/components/admin/admin-header";
+import AdminGrid from "@/components/admin/admin-grid";
+import AdminForm from "@/components/admin/admin-form";
 
-export default function PortfolioPage() {
+export default function AdminPage() {
   const [showForm, setShowForm] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
+  const { logout } = useAuth();
+
   return (
     <div className="flex-1 flex flex-col h-screen overflow-hidden bg-white">
-      <PortfolioHeader
+      <AdminHeader
         onAddClick={() => setShowForm(true)}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
+        onLogout={logout}
       />
 
       <div className="flex-1 overflow-hidden flex lg:flex-row flex-col">
-        <PortfolioGrid viewMode={viewMode} />
+        <AdminGrid viewMode={viewMode} />
 
         {/* Form Drawer */}
-        {showForm && <PortfolioForm onClose={() => setShowForm(false)} />}
+        {showForm && <AdminForm onClose={() => setShowForm(false)} />}
       </div>
     </div>
   );

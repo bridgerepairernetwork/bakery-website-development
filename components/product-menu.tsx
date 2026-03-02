@@ -14,7 +14,14 @@ interface Product {
   servings?: string;
 }
 
-const products: Product[] = [
+const categories = [
+  { id: "everything", label: "Everything" },
+  { id: "wedding-cakes", label: "Wedding Cakes" },
+  { id: "celebrations", label: "Celebrations" },
+  { id: "corporate", label: "Corporate" },
+];
+
+export const products: Product[] = [
   {
     id: "1",
     name: "Velvet Chocolate Cake",
@@ -168,13 +175,6 @@ const products: Product[] = [
     description: "Custom flavored cake with personalized design",
     servings: "15-20 servings",
   },
-];
-
-const categories = [
-  { id: "everything", label: "Everything" },
-  { id: "wedding-cakes", label: "Wedding Cakes" },
-  { id: "celebrations", label: "Celebrations" },
-  { id: "corporate", label: "Corporate" },
 ];
 
 export default function ProductMenu() {

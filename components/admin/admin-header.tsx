@@ -1,16 +1,18 @@
 import { LayoutGrid, List, Search, Plus } from "lucide-react";
 
-interface PortfolioHeaderProps {
+interface AdminHeaderProps {
   onAddClick: () => void;
   viewMode: "grid" | "list";
   onViewModeChange: (mode: "grid" | "list") => void;
+  onLogout?: () => void;
 }
 
-export default function PortfolioHeader({
+export default function AdminHeader({
   onAddClick,
   viewMode,
   onViewModeChange,
-}: PortfolioHeaderProps) {
+  onLogout,
+}: AdminHeaderProps) {
   return (
     <header className="h-20 border-b border-slate-100 bg-white flex items-center justify-between px-8 shrink-0">
       <div>
@@ -42,6 +44,16 @@ export default function PortfolioHeader({
           Add New Creation
         </button>
       </div>
+
+      {/* Logout Button (if provided) */}
+      {onLogout && (
+        <button
+          onClick={onLogout}
+          className="ml-6 px-4 py-2 bg-red-600 text-white rounded-full text-sm font-medium hover:bg-red-700 transition"
+        >
+          Logout
+        </button>
+      )}
 
       {/* View Mode Toggle */}
       <div className="flex gap-2 ml-4">
