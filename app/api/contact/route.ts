@@ -146,8 +146,8 @@ export async function POST(request: Request) {
 
     // Send confirmation email to client
     await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: email,
+      to: process.env.SMTP_USER,
+      from: email,
       subject: "Thank You for Your Inquiry - Perfect White Bakery",
       html: clientEmailTemplate(name, serviceType),
     });

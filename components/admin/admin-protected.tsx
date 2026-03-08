@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
+import AdminLogin from "@/components/admin/admin-login";
 
 export default function AdminProtected({
   children,
@@ -10,20 +10,11 @@ export default function AdminProtected({
   children: React.ReactNode;
 }) {
   const { user, loading } = useAuth();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.replace("/admin/login");
-    }
-  }, [user, loading, router]);
+  console.log("user: ", user, "\nloading:", loading);
 
-  if (loading || !user) {
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <span>Loading...</span>
-      </div>
-    );
+  if (!loading && !user) {
+    return <AdminLogin />;
   }
 
   return <>{children}</>;

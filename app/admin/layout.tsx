@@ -18,7 +18,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={epilogue.variable}>
+    <html lang="en" className={epilogue.variable} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <AuthProvider>
           <div className="flex h-screen bg-background">
