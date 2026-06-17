@@ -30,7 +30,6 @@ export async function GET(
     }
     return NextResponse.json({ id: snap.id, ...snap.data() });
   } catch (err: any) {
-    console.error("GET creation error", err);
     return NextResponse.json(
       { error: err.message || "Failed" },
       { status: 500 },
@@ -81,7 +80,6 @@ export async function PUT(
     await db.collection("creations").doc(id).update(updates);
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    console.error("PUT creation error", err);
     if (err.message === "Unauthorized") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -124,7 +122,6 @@ export async function DELETE(
     await db.collection("creations").doc(id).delete();
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    console.error("DELETE creation error", err);
     if (err.message === "Unauthorized") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -21,7 +21,6 @@ export async function GET(request: Request) {
     snap.forEach((doc) => items.push({ id: doc.id, ...doc.data() }));
     return NextResponse.json({ items });
   } catch (err: any) {
-    console.error("GET creations error", err);
     return NextResponse.json(
       { error: err.message || "Failed" },
       { status: 500 },
@@ -37,9 +36,11 @@ export async function POST(request: Request) {
       title,
       description,
       category,
+      price,
       featured = false,
       imageUrl,
       cloudinaryId,
+      type,
     } = body;
 
     if (!title || !description || !category || !imageUrl || !cloudinaryId) {
@@ -53,8 +54,10 @@ export async function POST(request: Request) {
       title,
       description,
       category,
+      price,
       featured,
       imageUrl,
+      type,
       cloudinaryId,
       createdAt: new Date().toISOString(),
     });
@@ -62,7 +65,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ id: newDoc.id }, { status: 201 });
   } catch (err: any) {
-    console.error("POST creation error", err);
     if (err.message === "Unauthorized") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

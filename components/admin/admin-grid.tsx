@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Eye, Trash2 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
@@ -12,6 +13,8 @@ interface AdminItem {
   imageUrl: string;
   cloudinaryId: string;
   category: "Signature" | "Seasonal" | "Wedding" | "Pastry" | "Savory";
+  type: "product" | "media";
+  price?: number;
   featured: boolean;
 }
 
@@ -31,6 +34,7 @@ interface AdminGridProps {
 }
 
 export default function AdminGrid({ viewMode }: AdminGridProps) {
+  const router = useRouter();
   const { user } = useAuth();
   const [items, setItems] = useState<AdminItem[]>(initialItems);
   const [loading, setLoading] = useState(true);
@@ -61,7 +65,6 @@ export default function AdminGrid({ viewMode }: AdminGridProps) {
       return;
     }
     if (!confirm("Delete this item?")) return;
-    console.log("Deleting creation with id", id);
     const token = await user.getIdToken();
     const res = await fetch(`/api/admin/creations/${id}`, {
       method: "DELETE",
@@ -69,6 +72,7 @@ export default function AdminGrid({ viewMode }: AdminGridProps) {
     });
     if (res.ok) {
       setItems((prev) => prev.filter((i) => i.id !== id));
+      router.push("/admin");
     } else {
       const data = await res.json();
       console.error("delete error", data.error);
@@ -140,6 +144,11 @@ export default function AdminGrid({ viewMode }: AdminGridProps) {
                   >
                     {item.category}
                   </div>
+
+                  {/* Type Badge */}
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-slate-900 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
+                    {item.type === "product" ? "Product" : "Media"}
+                  </div>
                 </div>
 
                 {/* Content */}
@@ -150,6 +159,15 @@ export default function AdminGrid({ viewMode }: AdminGridProps) {
                   <p className="text-sm text-slate-500 line-clamp-2">
                     {item.description}
                   </p>
+                  {item.price !== undefined && item.price !== null && (
+                    <p className="mt-2 text-sm font-bold text-accent">
+                      {new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                        minimumFractionDigits: 0,
+                      }).format(item.price)}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
@@ -182,11 +200,25 @@ export default function AdminGrid({ viewMode }: AdminGridProps) {
                       <p className="text-sm text-slate-500 mt-1">
                         {item.description}
                       </p>
+                      {item.price !== undefined && item.price !== null && (
+                        <p className="text-xs font-bold text-accent mt-1">
+                          {new Intl.NumberFormat("en-NG", {
+                            style: "currency",
+                            currency: "NGN",
+                            minimumFractionDigits: 0,
+                          }).format(item.price)}
+                        </p>
+                      )}
                     </div>
-                    <div
-                      className={`${categoryColors[item.category]} text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full whitespace-nowrap ml-4`}
-                    >
-                      {item.category}
+                    <div className="flex flex-col gap-2 items-end ml-4">
+                      <div
+                        className={`${categoryColors[item.category]} text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full whitespace-nowrap`}
+                      >
+                        {item.category}
+                      </div>
+                      <div className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full whitespace-nowrap">
+                        {item.type === "product" ? "Product" : "Media"}
+                      </div>
                     </div>
                   </div>
                 </div>

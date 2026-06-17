@@ -1,191 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Heart, ShoppingBag, X } from "lucide-react";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 interface Product {
   id: string;
   name: string;
   category: string;
-  price: string;
+  price: string | number;
   image: string;
   description: string;
   servings?: string;
+  type: "product" | "media";
 }
 
 const categories = [
   { id: "everything", label: "Everything" },
-  { id: "wedding-cakes", label: "Wedding Cakes" },
-  { id: "celebrations", label: "Celebrations" },
-  { id: "corporate", label: "Corporate" },
+  { id: "Signature Collection", label: "Signature" },
+  { id: "Seasonal Special", label: "Seasonal" },
+  { id: "Wedding & Events", label: "Weddings" },
+  { id: "Pastry Series", label: "Pastry" },
+  { id: "Savory Selections", label: "Savory" },
 ];
 
-export const products: Product[] = [
-  {
-    id: "1",
-    name: "Velvet Chocolate Cake",
-    category: "wedding-cakes",
-    price: "From $85",
-    image: "/imgs/cake-assets-1.jpeg",
-    description: "Decadent chocolate layers with silky ganache",
-    servings: "10-12 servings",
-  },
-  {
-    id: "2",
-    name: "Rainbow Macaron Tower",
-    category: "celebrations",
-    price: "From $120",
-    image: "/imgs/cake-assets-2.jpeg",
-    description: "Colorful handmade macarons in elegant tower",
-    servings: "24 pieces",
-  },
-  {
-    id: "3",
-    name: "Buttery Croissants",
-    category: "everything",
-    price: "From $4.50",
-    image: "/imgs/cake-assets-3.jpeg",
-    description: "Classic French butter croissants, perfectly flaky",
-    servings: "Individual",
-  },
-  {
-    id: "4",
-    name: "Artisan Sourdough",
-    category: "everything",
-    price: "From $8",
-    image: "/imgs/cake-assets-4.jpeg",
-    description: "Handcrafted sourdough with perfect crust",
-    servings: "1 loaf",
-  },
-  {
-    id: "5",
-    name: "Berry Tart Elegance",
-    category: "celebrations",
-    price: "From $65",
-    image: "/imgs/cake-assets-5.jpeg",
-    description: "Fresh berries on custard with pastry shell",
-    servings: "8 servings",
-  },
-  {
-    id: "6",
-    name: "Tiered Wedding Cake",
-    category: "wedding-cakes",
-    price: "From $250",
-    image: "/imgs/cake-assets-6.jpeg",
-    description: "Elegant three-tier white cake with fondant",
-    servings: "30-40 servings",
-  },
-  {
-    id: "7",
-    name: "Corporate Catering Platter",
-    category: "corporate",
-    price: "From $200",
-    image: "/imgs/cake-assets-7.jpeg",
-    description: "Assorted pastries and savory options",
-    servings: "20-25 pieces",
-  },
-  {
-    id: "8",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-8.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "9",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-9.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "10",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-10.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "11",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-11.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "12",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-12.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "13",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-13.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "14",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-14.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "15",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-15.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "16",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/cake-assets-16.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-  {
-    id: "17",
-    name: "Birthday Celebration Cake",
-    category: "celebrations",
-    price: "From $55",
-    image: "/imgs/customer-1.jpeg",
-    description: "Custom flavored cake with personalized design",
-    servings: "15-20 servings",
-  },
-];
+interface ProductMenuProps {
+  view?: "store" | "gallery";
+}
 
-export default function ProductMenu() {
+export const products: Product[] = [];
+
+export default function ProductMenu({ view = "store" }: ProductMenuProps) {
   const [selectedCategory, setSelectedCategory] = useState("everything");
+  const [menuProducts, setMenuProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState<Set<string>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const filteredProducts =
-    selectedCategory === "everything"
-      ? products
-      : products.filter((p) => p.category === selectedCategory);
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch("/api/creations?limit=100");
+        const data = await res.json();
+        if (res.ok && data.items) {
+          const mapped = data.items.map((item: any) => ({
+            id: item.id,
+            name: item.title,
+            category: item.category,
+            price:
+              item.price !== undefined && item.price !== null
+                ? item.price
+                : "Contact for Price",
+            image: item.imageUrl,
+            description: item.description,
+            servings: item.servings,
+            type: item.type,
+          }));
+          setMenuProducts(mapped);
+        }
+      } catch (e) {
+        console.error("Error fetching products:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = menuProducts.filter((p) => {
+    // Store view only shows products, Gallery view shows everything
+    const typeMatch = view === "store" ? p.type === "product" : true;
+    const matchesCategory =
+      selectedCategory === "everything" || p.category === selectedCategory;
+    return typeMatch && matchesCategory;
+  });
 
   const openModal = (imageUrl: string) => {
     document.body.style.overflow = "hidden";
@@ -213,15 +103,18 @@ export default function ProductMenu() {
       <div className="max-w-6xl mx-auto px-6 text-center mb-16">
         <div className="inline-block mb-4 px-4 py-2 rounded-full bg-accent/10">
           <span className="text-xs font-bold uppercase tracking-widest text-accent">
-            PORTFOLIO
+            {view === "store" ? "OUR MENU" : "PORTFOLIO"}
           </span>
         </div>
         <h1 className="text-4xl md:text-5xl font-black text-primary mb-4 leading-tight">
-          The Gallery of Delights
+          {view === "store"
+            ? "Artisanal Collection"
+            : "The Gallery of Delights"}
         </h1>
         <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-          Exceptional craftsmanship for your most precious moments. Explore our
-          curated selection of bespoke cakes and event designs.
+          {view === "store"
+            ? "Explore our curated selection of bespoke cakes, pastries, and savory delights available for order."
+            : "Exceptional craftsmanship for your most precious moments. Explore our curated selection of bespoke cakes and event designs."}
         </p>
       </div>
 
@@ -246,86 +139,104 @@ export default function ProductMenu() {
 
       {/* Product Grid */}
       <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group bg-white rounded-lg overflow-hidden border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
-            >
-              {/* Product Image */}
-              <div className="relative h-72 md:h-80 overflow-hidden bg-gray-100">
-                <div
-                  className="w-full h-full cursor-pointer"
-                  onClick={() => openModal(product.image)}
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    priority={false}
-                  />
-                </div>
-                {/* Like Button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleLike(product.id);
-                  }}
-                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all shadow-lg group-hover:scale-110"
-                  aria-label="Add to favorites"
-                >
-                  <Heart
-                    className={`w-5 h-5 transition-all ${
-                      liked.has(product.id)
-                        ? "fill-accent text-accent"
-                        : "text-gray-400"
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Product Info */}
-              <div className="p-6">
-                {/* <div className="mb-3">
-                  <span className="inline-block text-xs font-bold uppercase tracking-widest text-accent mb-2">
-                    {categories.find((c) => c.id === product.category)?.label}
-                  </span>
-                  <h3 className="text-lg font-black text-primary group-hover:text-accent transition-colors">
-                    {product.name}
-                  </h3>
-                </div>
-
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                  {product.description}
-                </p>
-
-                {product.servings && (
-                  <p className="text-xs font-semibold text-gray-500 mb-4">
-                    {product.servings}
-                  </p>
-                )} */}
-
-                {/* Price and Action */}
-                {/* <div className="flex items-center justify-between pt-4 border-t border-primary/10">
-                  <span className="text-lg font-black text-primary">
-                    {product.price}
-                  </span>
-                  <button className="bg-primary hover:bg-accent text-white p-2.5 rounded-full flex items-center justify-center transition-all active:scale-95 shadow-lg shadow-primary/20">
-                    <ShoppingBag className="w-5 h-5" />
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="group bg-white rounded-lg overflow-hidden border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
+              >
+                {/* Product Image */}
+                <div className="relative h-72 md:h-80 overflow-hidden bg-gray-100">
+                  <div
+                    className="w-full h-full cursor-pointer"
+                    onClick={() => openModal(product.image)}
+                  >
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      priority={false}
+                    />
+                  </div>
+                  {/* Like Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(product.id);
+                    }}
+                    className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all shadow-lg group-hover:scale-110"
+                    aria-label="Add to favorites"
+                  >
+                    <Heart
+                      className={`w-5 h-5 transition-all ${
+                        liked.has(product.id)
+                          ? "fill-accent text-accent"
+                          : "text-gray-400"
+                      }`}
+                    />
                   </button>
-                </div> */}
+                </div>
+
+                {/* Product Info */}
+                <div className="p-6">
+                  <div className="mb-3">
+                    <span className="inline-block text-xs font-bold uppercase tracking-widest text-accent mb-2">
+                      {categories.find((c) => c.id === product.category)?.label}
+                    </span>
+                    <h3 className="text-lg font-black text-primary group-hover:text-accent transition-colors">
+                      {product.name}
+                    </h3>
+                  </div>
+
+                  {view === "store" && (
+                    <>
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                        {product.description}
+                      </p>
+
+                      {product.servings && (
+                        <p className="text-xs font-semibold text-gray-500 mb-4">
+                          {product.servings}
+                        </p>
+                      )}
+
+                      {/* Price and Action */}
+                      <div className="flex items-center justify-between pt-4 border-t border-primary/10">
+                        <span className="text-lg font-black text-primary">
+                          {typeof product.price === "number"
+                            ? new Intl.NumberFormat("en-NG", {
+                                style: "currency",
+                                currency: "NGN",
+                                minimumFractionDigits: 0,
+                              }).format(product.price)
+                            : product.price}
+                        </span>
+                        <button className="bg-primary hover:bg-accent text-white p-2.5 rounded-full flex items-center justify-center transition-all active:scale-95 shadow-lg shadow-primary/20">
+                          <ShoppingBag className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* No Results */}
-        {filteredProducts.length === 0 && (
+        {!loading && filteredProducts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
-              No products found in this category.
+            <p className="text-gray-500 text-lg font-medium">
+              {view === "store"
+                ? "No products are currently available in this category."
+                : "Our gallery is currently being updated. Check back soon!"}
             </p>
           </div>
         )}
@@ -341,9 +252,12 @@ export default function ProductMenu() {
             We create custom cakes and catering solutions tailored to your
             vision. Contact us for a personalized consultation.
           </p>
-          <button className="bg-accent hover:bg-primary text-white font-bold py-3 px-8 rounded-full transition-all active:scale-95 shadow-lg shadow-accent/30 uppercase tracking-wider">
-            Request Custom Order
-          </button>
+          <Button
+            asChild
+            className="bg-accent hover:bg-primary text-white font-bold py-3 px-8 rounded-full transition-all active:scale-95 shadow-lg shadow-accent/30 uppercase tracking-wider"
+          >
+            <Link href="/contact">Request Custom Order</Link>
+          </Button>
         </div>
       </div>
 

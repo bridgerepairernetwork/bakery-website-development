@@ -16,6 +16,8 @@ export default function AdminForm({ onClose }: AdminFormProps) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Signature Collection");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [type, setType] = useState<"product" | "media">("product");
   const [featured, setFeatured] = useState(false);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -59,6 +61,8 @@ export default function AdminForm({ onClose }: AdminFormProps) {
           title,
           description,
           category,
+          price: price ? Number(price) : null,
+          type,
           featured,
           imageUrl: uploadData.url,
           cloudinaryId: uploadData.public_id,
@@ -70,13 +74,15 @@ export default function AdminForm({ onClose }: AdminFormProps) {
       toast.success("Creation saved successfully!");
       setTitle("");
       setCategory("Signature Collection");
+      setPrice("");
       setDescription("");
+      setType("product");
       setFeatured(false);
       setFile(null);
       setPreview(null);
-      router.refresh();
 
       onClose();
+      router.push("/admin");
     } catch (err: any) {
       console.error("save error", err);
       alert(err.message || "Something went wrong");
@@ -151,6 +157,37 @@ export default function AdminForm({ onClose }: AdminFormProps) {
           </div>
         </div>
 
+        {/* Entry Type Selection */}
+        <div className="space-y-3">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">
+            Entry Type
+          </label>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              onClick={() => setType("product")}
+              className={`flex-1 py-3 rounded-xl border-2 transition-all font-bold text-sm ${
+                type === "product"
+                  ? "border-accent bg-accent/5 text-accent"
+                  : "border-slate-100 bg-slate-50 text-slate-400"
+              }`}
+            >
+              Product
+            </button>
+            <button
+              type="button"
+              onClick={() => setType("media")}
+              className={`flex-1 py-3 rounded-xl border-2 transition-all font-bold text-sm ${
+                type === "media"
+                  ? "border-accent bg-accent/5 text-accent"
+                  : "border-slate-100 bg-slate-50 text-slate-400"
+              }`}
+            >
+              Gallery Media
+            </button>
+          </div>
+        </div>
+
         {/* Title Input */}
         <div className="space-y-2">
           <label
@@ -207,6 +244,26 @@ export default function AdminForm({ onClose }: AdminFormProps) {
             </div>
           </div>
         </div>
+
+        {/* Price Input - only for products */}
+        {type === "product" && (
+          <div className="space-y-2">
+            <label
+              htmlFor="price"
+              className="block text-xs font-bold text-slate-500 uppercase tracking-[0.2em]"
+            >
+              Price Information
+            </label>
+            <input
+              type="number"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="e.g., 85000"
+              className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-accent transition-all outline-none"
+            />
+          </div>
+        )}
 
         {/* Description Textarea */}
         <div className="space-y-2">

@@ -11,8 +11,6 @@ export default function AdminProtected({
 }) {
   const { user, loading } = useAuth();
 
-  console.log("user: ", user, "\nloading:", loading);
-
   if (!loading && !user) {
     return <AdminLogin />;
   }
