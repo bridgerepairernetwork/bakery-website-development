@@ -7,9 +7,12 @@ if (!getApps().length) {
     credential: cert({
       projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
       clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-      // privateKey may contain literal newlines that are escaped in env
+      // FIREBASE_ADMIN_PRIVATE_KEY must be stored as a Base64-encoded string
+      // to avoid line-break issues on hosting platforms (Vercel, Railway, etc.).
+      // Encode locally with: btoa(privateKey) or in Node:
+      //   Buffer.from(privateKey).toString("base64")
       privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY
-        ? process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, "\n")
+        ? Buffer.from(process.env.FIREBASE_ADMIN_PRIVATE_KEY, "base64").toString("utf-8")
         : undefined,
     }),
   });
